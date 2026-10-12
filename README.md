@@ -47,7 +47,7 @@ URL と審査用アカウント（指令box 用と PACS 用）は、提出フォ
 ひとつも無くても、UI・指令box・ダッシュボード・解析画面は一通り動きます。Python 3.10 以上が必要です。
 
 ```bash
-git clone <this repo> && cd MedOps
+git clone https://github.com/nyk3151/MedOps-Orchestrator.git && cd MedOps-Orchestrator
 python -m venv .venv && .venv/Scripts/activate      # macOS/Linux: source .venv/bin/activate
 pip install -e .
 python -m medops.launch                              # ジョブサーバー + UI を起動

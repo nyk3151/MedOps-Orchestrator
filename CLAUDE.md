@@ -29,7 +29,7 @@ Geminiは「司令塔」。計算もパス解決もしない。
 ## ディレクトリ構成
 
 ```
-MedOps/                         ← gitリポジトリ（Claude Codeはここで起動）
+MedOps-Orchestrator/            ← gitリポジトリ（Claude Codeはここで起動）
 ├── CLAUDE.md
 ├── README.md
 ├── settings.example.yaml       （settings.yaml はgitignore）
