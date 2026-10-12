@@ -48,7 +48,9 @@ URL と審査用アカウント（指令box 用と PACS 用）は、提出フォ
 
 ```bash
 git clone https://github.com/nyk3151/MedOps-Orchestrator.git && cd MedOps-Orchestrator
-python -m venv .venv && .venv/Scripts/activate      # macOS/Linux: source .venv/bin/activate
+python -m venv .venv
+.venv\Scripts\Activate.ps1          # Windows (PowerShell)。Git Bash: source .venv/Scripts/activate
+                                    # macOS / Linux: source .venv/bin/activate
 pip install -e .
 python -m medops.launch                              # ジョブサーバー + UI を起動
 ```
