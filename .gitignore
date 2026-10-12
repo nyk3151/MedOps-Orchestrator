@@ -1,0 +1,27 @@
+# secrets / local config
+settings.yaml
+.env
+
+# data (only the .gitkeep placeholders are tracked)
+data/*
+!data/*/
+data/*/*
+!data/*/.gitkeep
+
+# medical images / keys
+*.nii
+*.nii.gz
+*.dcm
+*-sa.json
+
+# python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+
+# Machine-specific notes for Claude Code (paths, GCP ids, decision log) — never published
+CLAUDE.local.md

@@ -1,0 +1,48 @@
+# Local PACS (Orthanc) + DB (PostgreSQL) for Med-Ops Orchestrator.
+#   cp .env.example .env      (optional: change credentials / ports)
+#   docker compose up -d
+# If you already run Orthanc natively, start only the DB:  docker compose up -d postgres
+# (or move the Docker Orthanc with ORTHANC_HTTP_PORT / ORTHANC_DICOM_PORT in .env).
+name: medops
+
+services:
+  orthanc:
+    image: orthancteam/orthanc:26.9.0
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${ORTHANC_HTTP_PORT:-8042}:8042"
+      - "127.0.0.1:${ORTHANC_DICOM_PORT:-4242}:4242"
+    environment:
+      ORTHANC__NAME: medops-orthanc
+      ORTHANC__AUTHENTICATION_ENABLED: "true"
+      ORTHANC__REGISTERED_USERS: '{"${ORTHANC_USER:-medops}": "${ORTHANC_PASSWORD:-medops}"}'
+      ORTHANC__DICOM_AET: MEDOPS
+      VERBOSE_STARTUP: "false"
+    volumes:
+      - orthanc-db:/var/lib/orthanc/db
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS -u ${ORTHANC_USER:-medops}:${ORTHANC_PASSWORD:-medops} http://localhost:8042/system >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  postgres:
+    image: postgres:16.15-alpine
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-medops}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-medops}
+      POSTGRES_DB: ${POSTGRES_DB:-medops}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-medops} -d ${POSTGRES_DB:-medops}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  orthanc-db:
+  postgres-data:

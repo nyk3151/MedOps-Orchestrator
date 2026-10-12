@@ -1,0 +1,35 @@
+# Copy to settings.yaml (gitignored) and edit. Every key is optional.
+# Resolution order: environment variable > settings.yaml > repo-relative default.
+# Use forward slashes in paths (C:/Program Files/...). Relative paths are resolved
+# against the repository root.
+#
+# NOTE: LIVE analysis cannot be enabled here on purpose. Start the job server with
+#   python -m medops.analysis.server --live     (or MEDOPS_ANALYSIS_LIVE=1)
+
+# --- data (default: ./data/{dicom,nifti,jobs,results}) ---
+# data_dir: data
+# nifti_dir: data/nifti
+
+# --- analysis engine: required only for LIVE (3D Slicer + GPU) ---
+# slicer_exe: C:/Users/<you>/AppData/Local/slicer.org/Slicer 5.8.1/Slicer.exe
+# module_dir: C:/path/to/SlicerAorticPipeline/AorticPipeline
+# aorta_model: C:/path/to/Nets/Aorta_net_2
+# tl_model: C:/path/to/Nets/Dissection_net
+# job_server_url: http://127.0.0.1:8000
+# mock_delay_s: 5          # how long a MOCK analysis "runs" (to show progress in the demo)
+
+# --- PACS (Orthanc). mock = built-in demo catalog, live = Orthanc REST API ---
+# pacs_mode: live
+# orthanc_url: http://127.0.0.1:8042
+# orthanc_user: medops
+# orthanc_password: medops
+
+# --- DB (default: SQLite file data/medops.db). Docker PostgreSQL: ---
+# database_url: postgresql+psycopg://medops:medops@127.0.0.1:5432/medops
+
+# --- LLM. mock = rule-based offline agent, gemini = Vertex AI function calling ---
+# llm_mode: gemini
+# gemini_model: gemini-2.5-flash
+# GCP project / location / key are read from the standard env vars:
+#   GOOGLE_CLOUD_PROJECT, GOOGLE_CLOUD_LOCATION, GOOGLE_APPLICATION_CREDENTIALS
+# (they may also be set here as gcp_project / gcp_location / gcp_credentials)

@@ -1,0 +1,9 @@
+.venv
+.git
+data
+**/__pycache__
+.pytest_cache
+settings.yaml
+.env
+*.nii.gz
+*-sa.json

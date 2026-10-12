@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "medops"
+version = "0.1.0"
+description = "Med-Ops Orchestrator: PACS -> 3D Slicer aortic analysis -> DB, driven by Gemini function calling"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+    "pyyaml>=6",
+    "requests>=2.31",
+    "google-genai>=1.0",
+    "streamlit>=1.40",
+    "pandas>=2.0",
+    "numpy>=1.26",
+    "SimpleITK>=2.3",
+    "pydicom>=2.4",
+    "sqlalchemy>=2.0",
+    "psycopg[binary]>=3.1",
+    "google-cloud-storage>=2.14",   # signed download links for large artifacts on Cloud Run
+]
+
+[project.scripts]
+medops = "medops.launch:main"
+medops-server = "medops.analysis.server:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "httpx>=0.27"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
