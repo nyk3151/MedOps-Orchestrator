@@ -7,6 +7,7 @@ name = "medops"
 version = "0.1.0"
 description = "Med-Ops Orchestrator: PACS -> 3D Slicer aortic analysis -> DB, driven by Gemini function calling"
 readme = "README.md"
+license = { text = "Apache-2.0" }
 requires-python = ">=3.10"
 dependencies = [
     "fastapi>=0.110",

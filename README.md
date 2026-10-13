@@ -41,6 +41,22 @@ URL と審査用アカウント（指令box 用と PACS 用）は、提出フォ
 - 費用の歯止めとして、実 CT の解析は 1 日 10 件までです。
 - PACS の審査用アカウントは閲覧専用です（画像の削除・追加はできません）。
 
+## 開発範囲（ハッカソン期間中に開発した部分）
+
+審査対象の **AI エージェントとそれを動かすシステム一式は、本ハッカソンの期間中に新規に開発しました**。
+大動脈の計測そのもの（解析エンジン）は、以前から公開している既存の部品を**変更せずに**呼び出しています。
+
+| 区分 | 内容 | 場所 |
+|---|---|---|
+| **ハッカソン期間中に開発** | AI エージェント（Gemini function calling のツール群、確認・拒否の判断、MOCK エージェント） | `src/medops/agent/` |
+| 〃 | PACS 連携（Orthanc の検索・取得、シリーズ判定、DICOM→NIfTI 変換と幾何チェック） | `src/medops/pacs/` |
+| 〃 | 解析ジョブサーバー、解析エンジンの呼び出し（ローカル / Docker / Cloud Run Jobs）、解析画面 | `src/medops/analysis/` |
+| 〃 | データベース（解析結果と実行メタデータ、統計） | `src/medops/db/` |
+| 〃 | 画面（統計ダッシュボード + 指令box） | `src/medops/ui/` |
+| 〃 | Google Cloud 構成（Cloud Run・Cloud Run Jobs GPU・Cloud SQL・PACS）とデプロイ | `deploy/` |
+| 既存の検証済みコードを移植・拡張 | 3D Slicer をヘッドレスで動かすスクリプト（結果の書き出し・解析画面の保存を追加） | `scripts/run_pipeline.py` |
+| 既存の部品（変更なし・リポジトリ外） | 解析エンジン [SlicerAorticPipeline](https://github.com/nyk3151/SlicerAorticPipeline)（3D Slicer 拡張）と学習済み nnU-Net モデル | — |
+
 ## Quick start（Slicer・GPU・クラウド鍵なし）
 
 各層に **MOCK モード**があり、既定は MOCK です。Slicer・GPU・Orthanc・DB・Vertex AI の鍵が
@@ -210,3 +226,28 @@ python -m medops.pacs.verify <case_id> --reference <verified.nii.gz>   # 変換�
 | `src/medops/ui/` | Streamlit |
 | `scripts/run_pipeline.py` | **Slicer 内蔵 Python** で実行するスクリプト。`medops` パッケージは import しない |
 | `deploy/` | Docker イメージ（アプリ / PACS / GPU ワーカー）と GCP デプロイスクリプト |
+
+## ライセンス
+
+本リポジトリのコードは [Apache License 2.0](LICENSE) です。
+
+利用しているオープンソースソフトウェアと、そのライセンスは次のとおりです。いずれも改変せずに使っています。
+Orthanc とそのプラグインは公式の Docker イメージを別のサーバー（コンテナ）として動かし、
+REST API で通信するだけで、本リポジトリのコードには組み込んでいません。
+
+| ソフトウェア | 用途 | ライセンス |
+|---|---|---|
+| [Orthanc](https://www.orthanc-server.com/)（`orthancteam/orthanc` イメージ） | PACS | GPL-3.0 |
+| Orthanc Stone Web Viewer / DICOMweb プラグイン | PACS の画像ビューア | AGPL-3.0 |
+| [3D Slicer](https://www.slicer.org/) | 解析の実行環境 | 3D Slicer License（BSD 系） |
+| [SlicerAorticPipeline](https://github.com/nyk3151/SlicerAorticPipeline) | 解析エンジン | MIT |
+| [nnU-Net](https://github.com/MIC-DKFZ/nnUNet) / SlicerNNUNet | セグメンテーション | Apache-2.0 |
+| [TotalSegmentator](https://github.com/wasserth/TotalSegmentator) / SlicerTotalSegmentator | 椎体レベルの特定（公開モデル `total`） | Apache-2.0 |
+| PostgreSQL | データベース | PostgreSQL License |
+| google-genai, google-cloud-storage, Streamlit, SimpleITK, requests | SDK・画面・画像処理 | Apache-2.0 |
+| FastAPI, PyYAML, pydicom, SQLAlchemy | ジョブサーバー・設定・DICOM・DB | MIT |
+| uvicorn, pandas, NumPy | ジョブサーバー・集計 | BSD-3-Clause |
+| psycopg | PostgreSQL 接続 | LGPL-3.0 |
+
+各ソフトウェアのライセンス全文は、それぞれの配布元を参照してください。
+学習済み重みと CT データはリポジトリに含めていません。
