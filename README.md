@@ -142,6 +142,8 @@ LIVE は `--live` フラグ（または `MEDOPS_ANALYSIS_LIVE=1`）を付けた�
 
 ## GCP へのデプロイ（推論時だけクラウド GPU）
 
+![システム構成図](docs/architecture.png)
+
 ```
 Cloud Run  medops-ui   (Streamlit + Gemini, ID/パスワードでログイン)
    └→ Cloud Run  medops-api   (ジョブサーバー, IAM 保護, 常時 1 インスタンス)
