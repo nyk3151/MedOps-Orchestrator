@@ -73,9 +73,8 @@ python -m medops.launch                              # ジョブサーバー + U
 
 ```bash
 cp .env.example .env
-docker compose up -d                              # Orthanc :8042（認証 medops/medops）+ PostgreSQL :5432
-python -m medops.pacs.phantom --upload            # 合成ファントム CT（DICOM）を Orthanc に投入
-cp settings.example.yaml settings.yaml            # 以下を有効化
+docker compose up -d --wait                       # Orthanc :8042（認証 medops/medops）+ PostgreSQL :5432
+cp settings.example.yaml settings.yaml            # 下の 4 行のコメントを外す
 ```
 
 ```yaml
@@ -83,6 +82,11 @@ pacs_mode: live
 orthanc_user: medops
 orthanc_password: medops
 database_url: postgresql+psycopg://medops:medops@127.0.0.1:5432/medops
+```
+
+```bash
+python -m medops.pacs.phantom --upload            # 合成ファントム CT（DICOM）を Orthanc に投入
+python -m medops.launch                           # 指令box で「症例一覧を見せて」「phantom_001 を解析して」
 ```
 
 合成ファントム（`phantom_001`〜`003`、`phantom_multi`）は、リポジトリ内のコードで生成した

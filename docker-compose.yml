@@ -21,7 +21,8 @@ services:
     volumes:
       - orthanc-db:/var/lib/orthanc/db
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS -u ${ORTHANC_USER:-medops}:${ORTHANC_PASSWORD:-medops} http://localhost:8042/system >/dev/null || exit 1"]
+      # The image has no curl/wget; any HTTP answer (401 without credentials included) means it is up.
+      test: ["CMD", "python3", "-c", "import urllib.request as r, urllib.error as e\ntry: r.urlopen('http://localhost:8042/system', timeout=4)\nexcept e.HTTPError: pass"]
       interval: 10s
       timeout: 5s
       retries: 10
