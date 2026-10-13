@@ -260,5 +260,9 @@ REST API で通信するだけで、本リポジトリのコードには組み�
 > Imran M, et al. Multi-class segmentation of aortic branches and zones in computed tomography angiography:
 > The AortaSeg24 challenge. arXiv preprint arXiv:2502.05330. 2025.
 > <https://arxiv.org/abs/2502.05330>
+>
+> Imran M, Krebs JR, Cooper MA, Ma J, Zhou Y, Shao W, editors. Multi-class Segmentation of the Aorta.
+> AortaSeg 2024. Lecture Notes in Computer Science, vol 16399. Cham: Springer; 2026.
+> <http://link.springer.com/openurl.asp?genre=issue&issn=0302-9743&volume=16399>
 
 Quick start の合成ファントム（`phantom_*`）と MOCK のデモ症例（`demo_*`）は、本リポジトリのコードで生成した架空のデータです。
