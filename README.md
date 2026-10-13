@@ -34,7 +34,7 @@ Streamlit（左: 統計ダッシュボード / 右: 指令box）
 
 ## クラウドのデモ環境
 
-Google Cloud 上で、上の操作をすべて実データ（公開データセットの匿名化済み CT）で試せます。
+Google Cloud 上で、上の操作をすべて実データ（公開データセット AortaSeg24 の匿名化済み CT。[出典](#データの出典)）で試せます。
 URL と審査用アカウント（指令box 用と PACS 用）は、提出フォームの「動作確認の方法」に記載しています。
 
 - 解析はクラウドの GPU（NVIDIA L4）で実行されます。1 症例あたり約 12〜16 分です。
@@ -251,3 +251,14 @@ REST API で通信するだけで、本リポジトリのコードには組み�
 
 各ソフトウェアのライセンス全文は、それぞれの配布元を参照してください。
 学習済み重みと CT データはリポジトリに含めていません。
+
+## データの出典
+
+クラウドのデモ環境の症例（`001`〜`010`）は、公開データセット **AortaSeg24** の匿名化済み CT 血管造影（CTA）です。
+画像は利用条件に従って入手したものを PACS に置いており、本リポジトリでは再配布していません。
+
+> Imran M, et al. Multi-class segmentation of aortic branches and zones in computed tomography angiography:
+> The AortaSeg24 challenge. arXiv preprint arXiv:2502.05330. 2025.
+> <https://arxiv.org/abs/2502.05330>
+
+Quick start の合成ファントム（`phantom_*`）と MOCK のデモ症例（`demo_*`）は、本リポジトリのコードで生成した架空のデータです。
